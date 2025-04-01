@@ -1,0 +1,159 @@
+/* ========== Global Styles ========== */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* ========== Header ========== */
+  .site-header {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    color: #003a80;
+  }
+  
+  .navbar-brand:hover {
+    color: #001f4d;
+  }
+  
+  .nav-link {
+    color: #003a80;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #001f4d;
+  }
+  
+  /* ========== Hero Section ========== */
+  .hero {
+    padding: 60px 0;
+  }
+  
+  .hero__title {
+    font-size: 2.5rem;
+    color: #003a80;
+    margin-bottom: 20px;
+  }
+  
+  .hero__subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+    color: #555;
+  }
+  
+  .hero__cta {
+    background-color: #003a80;
+    border: none;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .hero__cta:hover {
+    background-color: #001f4d;
+  }
+  
+  .hero__img {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  
+  /* ========== Footer ========== */
+  .site-footer {
+    background-color: #003a80;
+    color: #fff;
+    padding: 20px 0;
+  }
+
+
+  /* Estilos personalizados para el botón de Login/Registro en el header */
+.navbar-nav .nav-item.dropdown > a.dropdown-toggle {
+    background-color: #003a80; /* Color de fondo principal */
+    color: #fff !important;    /* Texto en blanco */
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Efecto hover para el botón */
+  .navbar-nav .nav-item.dropdown > a.dropdown-toggle:hover {
+    background-color: #001f4d;
+    text-decoration: none;
+    transform: scale(1.03);
+  }
+  
+  /* Estilos para el menú desplegable */
+  .navbar-nav .dropdown-menu {
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para el ítem del dropdown */
+  .navbar-nav .dropdown-menu .dropdown-item {
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efecto hover para los ítems del dropdown */
+  .navbar-nav .dropdown-menu .dropdown-item:hover {
+    background-color: #f2f2f2;
+    color: #003a80;
+  }
+  
+  
+
+
+/* Estilos formulario registro de usuarios */
+.form--registro {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form__title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #003a80;
+}
+
+.form__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form__input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form__button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #003a80;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form__button:hover {
+    background-color: #001f4d;
+}
+
