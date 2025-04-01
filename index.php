@@ -42,6 +42,74 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
         <a href="catalogo.php" class="btn btn-light btn-lg">Ver Catálogo</a>
       </div>
     </section>
+
+
+<!-- Carrusel de Logotipos de Ligas -->
+<section id="logosLigas" class="py-5 bg-light">
+  <div class="container">
+    <h3 class="text-center mb-4">Explora las Ligas de Fútbol</h3>
+    <div id="ligasCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <!-- Primer slide -->
+        <div class="carousel-item active">
+          <div class="d-flex justify-content-center align-items-center flex-wrap">
+            <div class="logo-item m-3">
+              <a href="catalogo.php?liga=premier%20league">
+                <img src="assets/img/premier-league.png" alt="Premier League" class="logo-img">
+              </a>
+            </div>
+            <div class="logo-item m-3">
+              <a href="catalogo.php?liga=la%20liga">
+                <img src="assets/img/logo-laliga.webp" alt="LaLiga" class="logo-img">
+              </a>
+            </div>
+            <div class="logo-item m-3">
+              <a href="catalogo.php?liga=serie%20a">
+                <img src="assets/img/serie-a.png" alt="Serie A" class="logo-img">
+              </a>
+            </div>
+            <div class="logo-item m-3">
+              <a href="catalogo.php?liga=bundesliga">
+                <img src="assets/img/logo-bundesliga.png" alt="Bundesliga" class="logo-img">
+              </a>
+            </div>
+            <div class="logo-item m-3">
+              <a href="catalogo.php?liga=ligue%201">
+                <img src="assets/img/logo-ligue-1.png" alt="Ligue 1" class="logo-img">
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Segundo slide (opcional) -->
+        <div class="carousel-item">
+          <div class="d-flex justify-content-center align-items-center flex-wrap">
+            <div class="logo-item m-3">
+              <a href="catalogo.php?liga=seleccion">
+                <img src="assets/img/logo-seleccion.png" alt="Seleccion Argentina" class="logo-img">
+              </a>
+            </div>
+            <div class="logo-item m-3">
+              <a href="catalogo.php?liga=futbol%20argentino">
+                <img src="assets/img/logo-futbol-argentino.png" alt="Futbol Argentino" class="logo-img">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Flechas de control -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#ligasCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#ligasCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
     
     <!-- Catálogo Destacado -->
     <section class="catalogo py-5">

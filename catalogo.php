@@ -5,8 +5,9 @@ include 'php/conexion.php';
 // Recuperar parámetros del GET
 $busqueda = isset($_GET['buscar']) ? trim($_GET['buscar']) : '';
 $filtro   = isset($_GET['filtro']) ? $_GET['filtro'] : '';
+$liga     = isset($_GET['liga']) ? trim($_GET['liga']) : '';
 
-// Definimos los filtros permitidos: precio_asc, precio_desc, antiguo (más antiguo) o nuevo (más nuevo)
+// Definir filtros permitidos para el ordenamiento
 $allowedFilters = ["precio_asc", "precio_desc", "antiguo", "nuevo"];
 if (!in_array($filtro, $allowedFilters)) {
     $filtro = "";
@@ -16,37 +17,47 @@ if (!in_array($filtro, $allowedFilters)) {
 $query = "SELECT id, equipo, liga, precio, imagen FROM camisetas";
 $params = [];
 $types  = "";
+$conditions = [];
 
+// Condición para búsqueda (equipo o liga)
 if (!empty($busqueda)) {
-    // Se busca coincidencias en el campo equipo o liga
-    $query .= " WHERE equipo LIKE ? OR liga LIKE ? ";
+    $conditions[] = "(equipo LIKE ? OR liga LIKE ?)";
     $searchParam = "%" . $busqueda . "%";
     $params[] = $searchParam;
     $params[] = $searchParam;
-    $types   .= "ss";
+    $types .= "ss";
 }
 
-// Agregar cláusula de ordenamiento según el filtro elegido
+// Condición para filtrar por liga
+if (!empty($liga)) {
+    $conditions[] = "liga = ?";
+    $params[] = $liga;
+    $types .= "s";
+}
+
+// Incorporar condiciones a la consulta
+if (!empty($conditions)) {
+    $query .= " WHERE " . implode(" AND ", $conditions);
+}
+
+// Agregar ordenamiento según el filtro seleccionado
 if ($filtro === "precio_asc") {
     $query .= " ORDER BY precio ASC ";
 } elseif ($filtro === "precio_desc") {
     $query .= " ORDER BY precio DESC ";
 } elseif ($filtro === "antiguo") {
-    $query .= " ORDER BY id ASC "; // Los registros con id menor son los más antiguos
+    $query .= " ORDER BY id ASC ";
 } elseif ($filtro === "nuevo") {
-    $query .= " ORDER BY id DESC "; // Los registros con id mayor son los más nuevos
+    $query .= " ORDER BY id DESC ";
 }
 
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la preparación de la consulta: " . $conn->error);
 }
-
-if (!empty($busqueda)) {
-    // En PHP 5.6+ podemos desempaquetar el array de parámetros con "..."
+if (!empty($conditions)) {
     $stmt->bind_param($types, ...$params);
 }
-
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -58,10 +69,10 @@ $result = $stmt->get_result();
   <title>Catálogo de Camisetas - Mundo Camisetas</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Archivo CSS personalizado (con query string para evitar caché) -->
+  <!-- Archivo CSS personalizado -->
   <link rel="stylesheet" href="assets/css/style.css?v=1.0">
   <style>
-    /* Ajustamos la imagen para que se muestre completa en la card */
+    /* Ajusta la imagen para que se muestre completa dentro de las cards */
     .card-img-top {
       width: 100%;
       height: 200px !important;
@@ -71,26 +82,24 @@ $result = $stmt->get_result();
   </style>
 </head>
 <body>
-<!-- Header -->
-<?php
-include 'includes/header.php';
-?>
+  <!-- Header -->
+  <?php include("includes/header.php"); ?>
   
   <!-- Main Content -->
   <main class="py-5">
     <div class="container">
       <h2 class="text-center mb-5">Catálogo de Camisetas</h2>
+      <?php if (!empty($liga)): ?>
+        <p class="text-center text-muted liga-busqueda">
+          Mostrando productos de la liga: <strong><?php echo htmlspecialchars(ucfirst($liga)); ?></strong>
+        </p>
+      <?php endif; ?>
       
       <!-- Filtro y Buscador -->
       <form method="GET" action="catalogo.php" class="mb-4">
         <div class="row g-2">
           <div class="col-md-4">
-            <input 
-              type="text" 
-              name="buscar" 
-              class="form-control" 
-              placeholder="Buscar por equipo o liga" 
-              value="<?php echo htmlspecialchars($busqueda); ?>">
+            <input type="text" name="buscar" class="form-control" placeholder="Buscar por equipo o liga" value="<?php echo htmlspecialchars($busqueda); ?>">
           </div>
           <div class="col-md-4">
             <select name="filtro" class="form-select">
@@ -105,6 +114,10 @@ include 'includes/header.php';
             <button type="submit" class="btn btn-primary w-100">Filtrar</button>
           </div>
         </div>
+        <?php if(!empty($liga)): ?>
+          <!-- Se conserva el filtro por liga al realizar una búsqueda -->
+          <input type="hidden" name="liga" value="<?php echo htmlspecialchars($liga); ?>">
+        <?php endif; ?>
       </form>
 
       <!-- Resultados -->
@@ -112,28 +125,26 @@ include 'includes/header.php';
         <?php
         if ($result && $result->num_rows > 0) {
           while ($row = $result->fetch_assoc()) {
-            $equipo  = htmlspecialchars($row['equipo'] ?? 'Sin información');
-            $liga    = htmlspecialchars($row['liga'] ?? '');
-            $precio  = number_format($row['precio'] ?? 0, 2);
-            $imagen  = htmlspecialchars($row['imagen'] ?? '');
+            $equipo   = htmlspecialchars($row['equipo'] ?? 'Sin información');
+            $ligaName = htmlspecialchars($row['liga'] ?? '');
+            $precio   = number_format($row['precio'] ?? 0, 2);
+            $imagen   = htmlspecialchars($row['imagen'] ?? '');
         ?>
-        <!-- Dentro del bucle que recorre los resultados -->
-<div class="col-md-3 mb-4">
-  <div class="card h-100 shadow-sm">
-    <?php if (!empty($imagen)) { ?>
-      <img src="uploads/camisetas/<?php echo $imagen; ?>" class="card-img-top" alt="Imagen de <?php echo $equipo; ?>">
-    <?php } else { ?>
-      <img src="assets/img/camiseta-placeholder.jpg" class="card-img-top" alt="Imagen no disponible">
-    <?php } ?>
-    <div class="card-body">
-      <h5 class="card-title"><?php echo $equipo; ?></h5>
-      <p class="card-text text-muted"><?php echo $liga; ?></p>
-      <p class="card-text fw-bold">$<?php echo $precio; ?></p>
-      <a href="ver_camiseta.php?id=<?php echo $row['id']; ?>" class="btn btn-outline-primary btn-sm">Ver más</a>
-    </div>
-  </div>
-</div>
-
+        <div class="col-md-3 mb-4">
+          <div class="card h-100 shadow-sm">
+            <?php if (!empty($imagen)) { ?>
+              <img src="uploads/camisetas/<?php echo $imagen; ?>" class="card-img-top" alt="Imagen de <?php echo $equipo; ?>">
+            <?php } else { ?>
+              <img src="assets/img/camiseta-placeholder.jpg" class="card-img-top" alt="Imagen no disponible">
+            <?php } ?>
+            <div class="card-body">
+              <h5 class="card-title"><?php echo $equipo; ?></h5>
+              <p class="card-text text-muted"><?php echo $ligaName; ?></p>
+              <p class="card-text fw-bold">$<?php echo $precio; ?></p>
+              <a href="ver_camiseta.php?id=<?php echo $row['id']; ?>" class="btn btn-outline-primary btn-sm">Ver más</a>
+            </div>
+          </div>
+        </div>
         <?php
           }
         } else {
@@ -147,9 +158,7 @@ include 'includes/header.php';
   </main>
   
   <!-- Footer -->
-  <?php 
-  include("includes/footer.php");
-  ?>
+  <?php include("includes/footer.php"); ?>
   
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

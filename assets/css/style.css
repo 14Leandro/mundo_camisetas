@@ -88,6 +88,40 @@ body {
 }
 
 
+/* Seccion carrusel */
+
+/* Estilo para las imágenes con forma de círculo */
+.logo-img {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* Efecto hover: ampliación sutil */
+.logo-img:hover {
+  transform: scale(1.1);
+}
+
+/* Opcional: si deseas un poco de margin para cada contenedor de logo */
+.logo-item {
+  text-align: center;
+}
+
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M11.354 1.646a.5.5 0 01.012.708L5.707 8l5.667 5.646a.5.5 0 01-.708.708l-6-6a.5.5 0 010-.708l6-6a.5.5 0 01.698-.002z' clip-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M4.646 14.354a.5.5 0 01-.012-.708L10.293 8 4.626 2.354a.5.5 0 01.708-.708l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.698.002z' clip-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.liga-busqueda strong{
+    text-transform: capitalize;
+}
+
 
 /* Hero Section */
 .hero {
