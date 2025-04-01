@@ -40,7 +40,7 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
                 <button class="btn btn-link text-primary" data-bs-toggle="modal" data-bs-target="#modalLogin">Iniciar Sesión</button>
               </li>
               <li class="nav-item">
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegistro">Registrarse</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegistro">Registrarse</button>
               </li>
             <?php } ?>
           </ul>
@@ -67,14 +67,21 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
         <div class="row">
           <?php
           include 'php/conexion.php';
-          $query = "SELECT equipo, liga, precio FROM camisetas LIMIT 4";
+          // Se incluyó el campo "imagen" en la consulta
+          $query = "SELECT equipo, liga, precio, imagen FROM camisetas LIMIT 4";
           $result = $conn->query($query);
           if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
               echo '
               <div class="col-md-3 mb-4">
-                <div class="card shadow-sm h-100">
-                  <img src="assets/img/camiseta-placeholder.jpg" class="card-img-top" alt="Imagen de ' . htmlspecialchars($row['equipo']) . '">
+                <div class="card shadow-sm h-100">';
+              // Verificamos si existe la imagen; de lo contrario, mostramos una placeholder
+              if (!empty($row['imagen'])) {
+                echo '<img src="uploads/camisetas/' . htmlspecialchars($row['imagen']) . '" class="card-img-top" alt="Imagen de ' . htmlspecialchars($row['equipo']) . '">';
+              } else {
+                echo '<img src="assets/img/camiseta-placeholder.jpg" class="card-img-top" alt="Imagen no disponible">';
+              }
+              echo '
                   <div class="card-body">
                     <h5 class="card-title">' . htmlspecialchars($row['equipo']) . '</h5>
                     <p class="card-text text-muted">' . htmlspecialchars($row['liga']) . '</p>
@@ -125,86 +132,76 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
   
   <!-- Modals -->
   <!-- Modal de Login -->
-<div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="modalLoginLabel">Iniciar Sesión</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Mostrar mensaje de error si existe -->
-        <?php if (isset($_SESSION['mensaje_error_login']) && $_SESSION['mensaje_error_login'] != "") { ?>
-          <div class="alert alert-danger text-center" role="alert">
-            <?php echo htmlspecialchars($_SESSION['mensaje_error_login']); ?>
-          </div>
-        <?php } ?>
-        
-        <form action="php/validar_login.php" method="POST">
-          <div class="mb-3">
-            <label for="login-email" class="form-label">Correo Electrónico</label>
-            <input type="email" name="email" id="login-email" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="login-password" class="form-label">Contraseña</label>
-            <input type="password" name="password" id="login-password" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Ingresar</button>
-        </form>
+  <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="modalLoginLabel">Iniciar Sesión</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <?php if (isset($_SESSION['mensaje_error_login']) && $_SESSION['mensaje_error_login'] != "") { ?>
+            <div class="alert alert-danger text-center" role="alert">
+              <?php echo htmlspecialchars($_SESSION['mensaje_error_login']); ?>
+            </div>
+          <?php } ?>
+          <form action="php/validar_login.php" method="POST">
+            <div class="mb-3">
+              <label for="login-email" class="form-label">Correo Electrónico</label>
+              <input type="email" name="email" id="login-email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="login-password" class="form-label">Contraseña</label>
+              <input type="password" name="password" id="login-password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
   
   <!-- Modal de Registro -->
   <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title" id="modalRegistroLabel">Registrarse</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Mostrar mensaje de error si existe -->
-        <?php if (isset($_SESSION['mensaje_error']) && $_SESSION['mensaje_error'] != "") { ?>
-          <div class="alert alert-danger text-center" role="alert">
-            <?php echo htmlspecialchars($_SESSION['mensaje_error']); ?>
-          </div>
-        <?php } ?>
-
-        <!-- Mostrar mensaje de éxito si existe -->
-        <?php if (isset($_SESSION['mensaje_exito']) && $_SESSION['mensaje_exito'] != "") { ?>
-          <div class="alert alert-success" role="alert">
-            <?php echo htmlspecialchars($_SESSION['mensaje_exito']); ?>
-          </div>
-        <?php } ?>
-
-        <form action="php/registrar_usuario.php" method="POST">
-          <div class="mb-3">
-            <label for="registro-nombre" class="form-label">Nombre</label>
-            <input type="text" name="nombre" id="registro-nombre" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="registro-email" class="form-label">Correo Electrónico</label>
-            <input type="email" name="email" id="registro-email" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="registro-password" class="form-label">Contraseña</label>
-            <input type="password" name="password" id="registro-password" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-success w-100">Registrarse</button>
-        </form>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="modalRegistroLabel">Registrarse</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <?php if (isset($_SESSION['mensaje_error']) && $_SESSION['mensaje_error'] != "") { ?>
+            <div class="alert alert-danger text-center" role="alert">
+              <?php echo htmlspecialchars($_SESSION['mensaje_error']); ?>
+            </div>
+          <?php } ?>
+          <?php if (isset($_SESSION['mensaje_exito']) && $_SESSION['mensaje_exito'] != "") { ?>
+            <div class="alert alert-success" role="alert">
+              <?php echo htmlspecialchars($_SESSION['mensaje_exito']); ?>
+            </div>
+          <?php } ?>
+          <form action="php/registrar_usuario.php" method="POST">
+            <div class="mb-3">
+              <label for="registro-nombre" class="form-label">Nombre</label>
+              <input type="text" name="nombre" id="registro-nombre" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="registro-email" class="form-label">Correo Electrónico</label>
+              <input type="email" name="email" id="registro-email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="registro-password" class="form-label">Contraseña</label>
+              <input type="password" name="password" id="registro-password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Registrarse</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
- 
+  
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
   <script src="assets/js/script.js" lang="javascript"></script>
-
 </body>
 </html>
