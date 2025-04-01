@@ -1,8 +1,36 @@
-# .gitignore
-/vendor/
-/node_modules/
-*.log
-*.env
-/db/*.sql
-/php/errors.log
+# Ignorar directorios de XAMPP y configuraciones específicas del sistema local
 /xampp/
+*.log
+
+# Configuración específica de PHP
+*.env
+php_errors.log
+
+# Archivos relacionados con entornos de desarrollo local
+.DS_Store
+Thumbs.db
+
+# Archivos relacionados con tu base de datos y respaldos
+/db/*.sql
+/db_backups/
+
+# Dependencias o paquetes externos (si los usas)
+node_modules/
+vendor/
+
+# Archivos temporales del sistema o del editor
+*.swp
+*.swo
+*.tmp
+*.bak
+*.old
+.idea/
+.vscode/
+
+# Archivos relacionados con sistemas operativos
+*.~lock.*
+*.tmp~
+desktop.ini
+
+# Ignorar todo el contenido de "uploads" o directorios similares
+uploads/
