@@ -32,5 +32,3 @@ vendor/
 *.tmp~
 desktop.ini
 
-# Ignorar todo el contenido de "uploads" o directorios similares
-uploads/

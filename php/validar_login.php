@@ -2,7 +2,7 @@
 session_start();
 include 'conexion.php';
 
-// Recoger y limpiar los datos del formulario
+// Recoger y limpiar datos del formulario
 $email    = trim($_POST['email']);
 $password = trim($_POST['password']);
 
@@ -13,21 +13,27 @@ if (empty($email) || empty($password)) {
     exit();
 }
 
-// Preparar la consulta para buscar el usuario con ese email
-$stmt = $conn->prepare("SELECT id, nombre, password FROM usuarios WHERE email = ?");
+// Preparar la consulta para buscar el usuario
+$stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 1) {
     $usuario = $result->fetch_assoc();
-    // Verificar la contraseña utilizando password_verify
+    // Verificar la contraseña
     if (password_verify($password, $usuario['password'])) {
-        // Credenciales correctas. Iniciar sesión.
+        // Iniciar sesión: guardar datos en sesión
         $_SESSION['usuario_id'] = $usuario['id'];
         $_SESSION['nombre']     = $usuario['nombre'];
-        // Redirigir sin hash para que el modal no se abra.
-        header("Location: ../index.php");
+        $_SESSION['rol']        = $usuario['rol'];
+        
+        // Redirigir según el rol
+        if ($usuario['rol'] === 'admin') {
+            header("Location: ../admin/index.php");
+        } else {
+            header("Location: ../index.php");
+        }
         exit();
     } else {
         // Contraseña incorrecta
@@ -36,7 +42,7 @@ if ($result->num_rows === 1) {
         exit();
     }
 } else {
-    // No se encontró el usuario
+    // No se encontró usuario
     $_SESSION['mensaje_error_login'] = "Correo o contraseña incorrectos.";
     header("Location: ../index.php#modalLogin");
     exit();
