@@ -1,34 +1,41 @@
-# Ignorar directorios de XAMPP y configuraciones específicas del sistema local
-/xampp/
-*.log
-
-# Configuración específica de PHP
-*.env
-php_errors.log
-
-# Archivos relacionados con entornos de desarrollo local
+# Archivos de sistema (macOS y Windows)
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# Archivos relacionados con tu base de datos y respaldos
-/db/*.sql
-/db_backups/
-
-# Dependencias o paquetes externos (si los usas)
-node_modules/
-vendor/
-
-# Archivos temporales del sistema o del editor
-*.swp
-*.swo
-*.tmp
-*.bak
-*.old
+# Archivos generados por editores/IDEs
 .idea/
 .vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
 
-# Archivos relacionados con sistemas operativos
-*.~lock.*
-*.tmp~
-desktop.ini
+# Dependencias y gestores de paquetes
+/vendor/
+/node_modules/
 
+# Archivos de entorno
+.env
+.env.*
+
+# Logs y archivos temporales
+*.log
+logs/
+cache/
+tmp/
+*.tmp
+
+# Base de datos local (si aplica)
+*.sqlite
+*.sqlite3
+
+# Archivos de respaldo
+*.bak
+*.backup
+
+# Ignorar archivos subidos (imágenes, videos, etc.) - se ignora todo su contenido,
+# pero se puede mantener la estructura colocando un archivo .gitkeep dentro.
+uploads/*
+!uploads/.gitkeep
