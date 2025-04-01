@@ -71,24 +71,10 @@ $result = $stmt->get_result();
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="site-header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-        <a class="navbar-brand" href="index.php">Mundo Camisetas</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCatalogo">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCatalogo">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="catalogo.php">Catálogo</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+<!-- Header -->
+<?php
+include 'includes/header.php';
+?>
   
   <!-- Main Content -->
   <main class="py-5">
@@ -131,21 +117,23 @@ $result = $stmt->get_result();
             $precio  = number_format($row['precio'] ?? 0, 2);
             $imagen  = htmlspecialchars($row['imagen'] ?? '');
         ?>
-        <div class="col-md-3 mb-4">
-          <div class="card h-100 shadow-sm">
-            <?php if (!empty($imagen)) { ?>
-              <img src="uploads/camisetas/<?php echo $imagen; ?>" class="card-img-top" alt="Imagen de <?php echo $equipo; ?>">
-            <?php } else { ?>
-              <img src="assets/img/camiseta-placeholder.jpg" class="card-img-top" alt="Imagen no disponible">
-            <?php } ?>
-            <div class="card-body">
-              <h5 class="card-title"><?php echo $equipo; ?></h5>
-              <p class="card-text text-muted"><?php echo $liga; ?></p>
-              <p class="card-text fw-bold">$<?php echo $precio; ?></p>
-              <a href="#" class="btn btn-outline-primary btn-sm">Ver más</a>
-            </div>
-          </div>
-        </div>
+        <!-- Dentro del bucle que recorre los resultados -->
+<div class="col-md-3 mb-4">
+  <div class="card h-100 shadow-sm">
+    <?php if (!empty($imagen)) { ?>
+      <img src="uploads/camisetas/<?php echo $imagen; ?>" class="card-img-top" alt="Imagen de <?php echo $equipo; ?>">
+    <?php } else { ?>
+      <img src="assets/img/camiseta-placeholder.jpg" class="card-img-top" alt="Imagen no disponible">
+    <?php } ?>
+    <div class="card-body">
+      <h5 class="card-title"><?php echo $equipo; ?></h5>
+      <p class="card-text text-muted"><?php echo $liga; ?></p>
+      <p class="card-text fw-bold">$<?php echo $precio; ?></p>
+      <a href="ver_camiseta.php?id=<?php echo $row['id']; ?>" class="btn btn-outline-primary btn-sm">Ver más</a>
+    </div>
+  </div>
+</div>
+
         <?php
           }
         } else {

@@ -15,40 +15,22 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <!-- Archivo CSS personalizado -->
-  <link rel="stylesheet" href="assets/css/style.css?v=1.0">
+  <link rel="stylesheet" href="assets/css/style.css?">
 </head>
 <body>
   <!-- Header -->
-  <header class="site-header">
-    <nav class="navbar navbar-expand-lg navbar-light">
-      <div class="container">
-        <a class="navbar-brand" href="#">Mundo Camisetas</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-center">
-            <?php if ($nombreUsuario !== "") { ?>
-              <li class="nav-item me-3">
-                <span class="nav-link">Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?></span>
-              </li>
-              <li class="nav-item">
-                <a href="php/logout.php" class="btn btn-outline-danger">Cerrar Sesión</a>
-              </li>
-            <?php } else { ?>
-              <li class="nav-item me-2">
-                <button class="btn btn-link text-primary" data-bs-toggle="modal" data-bs-target="#modalLogin">Iniciar Sesión</button>
-              </li>
-              <li class="nav-item">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegistro">Registrarse</button>
-              </li>
-            <?php } ?>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+  <?php include("includes/header.php"); ?>
   
+  <!-- Mensaje Flash de registro exitoso -->
+  <?php if (isset($_SESSION['mensaje_exito']) && !empty($_SESSION['mensaje_exito'])): ?>
+  <div class="flash-message-container">
+    <div class="flash-message" id="flashMessage">
+      <i class="bi bi-check-circle-fill"></i>
+      <span><?php echo htmlspecialchars($_SESSION['mensaje_exito']); unset($_SESSION['mensaje_exito']); ?></span>
+      <button type="button" class="close-btn" aria-label="Cerrar mensaje" onclick="document.getElementById('flashMessage').style.display='none';">&times;</button>
+    </div>
+  </div>
+<?php endif; ?>
   <!-- Main Content -->
   <main>
     <!-- Hero Section -->
@@ -131,7 +113,7 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
   </footer>
   
   <!-- Modals -->
-  <!-- Modal de Login -->
+  <!-- Modal de Iniciar Sesión -->
   <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">

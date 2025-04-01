@@ -1,32 +1,48 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Comprueba si el hash de la URL es '#modalRegistro'
-    if (window.location.hash === "#modalRegistro") {
-      var modalRegistroEl = document.getElementById("modalRegistro");
-      if (modalRegistroEl) {
-        var registroModal = new bootstrap.Modal(modalRegistroEl);
-        registroModal.show();
-      }
+document.addEventListener('DOMContentLoaded', function () {
+  // 1. Verificar el hash para abrir el modal correspondiente
+  const hash = window.location.hash;
+  if (hash === '#modalRegistro') {
+    const modalRegistroEl = document.getElementById('modalRegistro');
+    if (modalRegistroEl) {
+      const registroModal = new bootstrap.Modal(modalRegistroEl);
+      registroModal.show();
     }
-  });
+  } else if (hash === '#modalLogin') {
+    const modalLoginEl = document.getElementById('modalLogin');
+    if (modalLoginEl) {
+      const loginModal = new bootstrap.Modal(modalLoginEl);
+      loginModal.show();
+    }
+  }
 
-  document.addEventListener("DOMContentLoaded", function() {
-    // Auto-apertura para el modal de registro (si fuera necesario)
-    if (window.location.hash === "#modalRegistro") {
-      var modalRegistroEl = document.getElementById("modalRegistro");
-      if (modalRegistroEl) {
-        var registroModal = new bootstrap.Modal(modalRegistroEl);
-        registroModal.show();
+  // 2. Limpiar el hash inmediatamente para evitar que quede en la URL
+  if (hash === '#modalRegistro' || hash === '#modalLogin') {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+
+  // 3. Listener global que se activa cuando se cierra cualquier modal
+  document.addEventListener('hidden.bs.modal', function () {
+    // Esperamos 300 ms para que Bootstrap finalice sus animaciones de cierre
+    setTimeout(function () {
+      // Eliminar el hash por si acaso queda
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+
+      // Quitar la clase que bloquea el scroll y cualquier estilo inline que impida la interacción
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = 'auto';
+      if (document.body.hasAttribute('style')) {
+        document.body.removeAttribute('style');
       }
-    }
-    
-    // Auto-apertura para el modal de login si estamos en el hash #modalLogin
-    if (window.location.hash === "#modalLogin") {
-      var modalLoginEl = document.getElementById("modalLogin");
-      if (modalLoginEl) {
-        var loginModal = new bootstrap.Modal(modalLoginEl);
-        loginModal.show();
+
+      // Forzar la eliminación de cualquier backdrop residual
+      while (document.getElementsByClassName('modal-backdrop').length > 0) {
+        document.getElementsByClassName('modal-backdrop')[0].parentNode.removeChild(
+          document.getElementsByClassName('modal-backdrop')[0]
+        );
       }
-    }
+
+      // Forzar al navegador a recalcular el layout
+      window.dispatchEvent(new Event('resize'));
+    }, 300);
   });
-  
-  
+});

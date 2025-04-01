@@ -40,9 +40,9 @@ if ($stmt->execute()) {
     $usuario_id = $conn->insert_id;
 
     // Iniciar sesión automáticamente: almacenar los datos del usuario en la sesión
-    $_SESSION['usuario_id'] = $usuario_id;
-    $_SESSION['nombre']     = $nombre;
-    $_SESSION['rol']        = 'user';
+    $_SESSION['usuario_id']   = $usuario_id;
+    $_SESSION['nombre']       = $nombre;
+    $_SESSION['rol']          = 'user';
     $_SESSION['mensaje_exito'] = "Usuario registrado exitosamente. ¡Bienvenido, $nombre!";
 
     header("Location: ../index.php");

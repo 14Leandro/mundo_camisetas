@@ -24,6 +24,66 @@ body {
   font-size: 1.5rem;
 }
 
+/* Mensaje de exito de registro */
+/* Contenedor para centrar el mensaje */
+/* Flash message overlay */
+.flash-message-container {
+  position: fixed;
+  top: 20px; /* Distancia desde el borde superior */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1050; /* Asegura que esté por encima de otros elementos (como el hero) */
+  max-width: 600px;
+  width: 90%;
+}
+
+.flash-message {
+  position: relative;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #28a745, #5cb85c);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+/* Ícono de éxito */
+.flash-message i {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+/* Botón de cierre */
+.flash-message .close-btn {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Animación para aparición desde arriba – SOLO vertical */
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
 /* Hero Section */
 .hero {
   background: url('assets/img/hero.jpg') center center/cover no-repeat;
