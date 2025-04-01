@@ -15,7 +15,7 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <!-- Archivo CSS personalizado -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.0">
 </head>
 <body>
   <!-- Header -->

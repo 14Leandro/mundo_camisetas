@@ -100,6 +100,15 @@ main {
   flex: 1;
 }
 
+
+/* Ajusta imagen de la card */
+.card .card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  background-color: #fff;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .site-footer {
