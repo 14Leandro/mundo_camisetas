@@ -15,7 +15,7 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <!-- Archivo CSS personalizado -->
-  <link rel="stylesheet" href="assets/css/style.css?">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.0">
 </head>
 <body>
   <!-- Header -->
@@ -23,14 +23,15 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
   
   <!-- Mensaje Flash de registro exitoso -->
   <?php if (isset($_SESSION['mensaje_exito']) && !empty($_SESSION['mensaje_exito'])): ?>
-  <div class="flash-message-container">
-    <div class="flash-message" id="flashMessage">
-      <i class="bi bi-check-circle-fill"></i>
-      <span><?php echo htmlspecialchars($_SESSION['mensaje_exito']); unset($_SESSION['mensaje_exito']); ?></span>
-      <button type="button" class="close-btn" aria-label="Cerrar mensaje" onclick="document.getElementById('flashMessage').style.display='none';">&times;</button>
+    <div class="flash-message-container">
+      <div class="flash-message" id="flashMessage">
+        <i class="bi bi-check-circle-fill"></i>
+        <span><?php echo htmlspecialchars($_SESSION['mensaje_exito']); unset($_SESSION['mensaje_exito']); ?></span>
+        <button type="button" class="close-btn" aria-label="Cerrar mensaje" onclick="document.getElementById('flashMessage').style.display='none';">&times;</button>
+      </div>
     </div>
-  </div>
-<?php endif; ?>
+  <?php endif; ?>
+  
   <!-- Main Content -->
   <main>
     <!-- Hero Section -->
@@ -49,30 +50,29 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
         <div class="row">
           <?php
           include 'php/conexion.php';
-          // Se incluyó el campo "imagen" en la consulta
-          $query = "SELECT equipo, liga, precio, imagen FROM camisetas LIMIT 4";
+          // Incluir el campo "id" en la consulta para identificar cada camiseta.
+          $query = "SELECT id, equipo, liga, precio, imagen FROM camisetas LIMIT 4";
           $result = $conn->query($query);
           if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              echo '
-              <div class="col-md-3 mb-4">
-                <div class="card shadow-sm h-100">';
-              // Verificamos si existe la imagen; de lo contrario, mostramos una placeholder
-              if (!empty($row['imagen'])) {
-                echo '<img src="uploads/camisetas/' . htmlspecialchars($row['imagen']) . '" class="card-img-top" alt="Imagen de ' . htmlspecialchars($row['equipo']) . '">';
-              } else {
-                echo '<img src="assets/img/camiseta-placeholder.jpg" class="card-img-top" alt="Imagen no disponible">';
+              while ($row = $result->fetch_assoc()) {
+                echo '<div class="col-md-3 mb-4">';
+                echo '  <div class="card shadow-sm h-100">';
+                // Mostrar la imagen o una placeholder si no existe.
+                if (!empty($row['imagen'])) {
+                  echo '    <img src="uploads/camisetas/' . htmlspecialchars($row['imagen']) . '" class="card-img-top" alt="Imagen de ' . htmlspecialchars($row['equipo']) . '">';
+                } else {
+                  echo '    <img src="assets/img/camiseta-placeholder.jpg" class="card-img-top" alt="Imagen no disponible">';
+                }
+                echo '    <div class="card-body">';
+                echo '      <h5 class="card-title">' . htmlspecialchars($row['equipo']) . '</h5>';
+                echo '      <p class="card-text text-muted">' . htmlspecialchars($row['liga']) . '</p>';
+                echo '      <p class="card-text fw-bold">$' . number_format($row['precio'], 2) . '</p>';
+                // Incorporamos el id en el enlace para dirigir al detalle de la camiseta.
+                echo '      <a href="ver_camiseta.php?id=' . $row['id'] . '" class="btn btn-outline-primary btn-sm">Ver más</a>';
+                echo '    </div>';
+                echo '  </div>';
+                echo '</div>';
               }
-              echo '
-                  <div class="card-body">
-                    <h5 class="card-title">' . htmlspecialchars($row['equipo']) . '</h5>
-                    <p class="card-text text-muted">' . htmlspecialchars($row['liga']) . '</p>
-                    <p class="card-text fw-bold">$' . number_format($row['precio'], 2) . '</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Ver más</a>
-                  </div>
-                </div>
-              </div>';
-            }
           } else {
             echo '<p class="text-center">No hay camisetas disponibles en este momento.</p>';
           }

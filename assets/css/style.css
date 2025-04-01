@@ -132,6 +132,75 @@ body {
   object-fit: cover;
 }
 
+
+/* Seccion Ver Mas */
+
+.img-container {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  max-height: 350px; /* Establece la altura máxima deseada */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-container img {
+  max-height: 350px; /* La imagen nunca excederá este alto */
+  width: auto;      /* Conserva proporción, ajustando el ancho de forma natural */
+  transition: transform 0.3s ease;
+}
+
+.img-container:hover img {
+  transform: scale(1.05);
+}
+
+.btn-compra {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(45deg, #34d058, #28a745);
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 8px 15px rgba(40,167,69,0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-compra:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 20px rgba(40,167,69,0.5);
+}
+
+.btn-compra:active {
+  transform: translateY(0);
+  box-shadow: 0 5px 10px rgba(40,167,69,0.3);
+}
+
+/* Efecto "shine" al pasar el cursor */
+.btn-compra::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75px;
+  width: 50px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: skewX(-20deg);
+  transition: all 0.5s ease-in-out;
+}
+
+.btn-compra:hover::before {
+  left: 100%;
+}
+
+
+
 /* Footer */
 .site-footer {
   background-color: #212529;

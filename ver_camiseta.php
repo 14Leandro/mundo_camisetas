@@ -2,23 +2,22 @@
 session_start();
 include 'php/conexion.php';
 
-// Validar que se haya pasado un ID
-if (!isset($_GET['id']) || empty($_GET['id'])) {
+// Verificar que el id esté presente y sea numérico
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
     exit();
 }
 
 $id = intval($_GET['id']);
 
-// Recuperar los datos de la camiseta
-$query = "SELECT * FROM camisetas WHERE id = ?";
-$stmt = $conn->prepare($query);
+// Consulta para obtener todos los datos de la camiseta
+$stmt = $conn->prepare("SELECT equipo, liga, precio, imagen, descripcion FROM camisetas WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if($result->num_rows === 0) {
-    echo "Camiseta no encontrada.";
+    echo "<div class='container mt-5'><h3 class='text-center'>Camiseta no encontrada.</h3></div>";
     exit();
 }
 
@@ -36,42 +35,83 @@ $conn->close();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Archivo CSS personalizado -->
   <link rel="stylesheet" href="assets/css/style.css?v=1.0">
-  <style>
-    .detalle-img {
-      width: 100%;
-      max-height: 400px;
-      object-fit: contain;
-      background-color: #fff;
-    }
-  </style>
 </head>
 <body>
-  <!-- Puedes incluir tu header reutilizando un archivo shared si lo tienes -->
-  <?php include 'includes/header.php'; ?>
+  <!-- Header (Incluye tu header reutilizable) -->
+  <?php include("includes/header.php"); ?>
   
-  <div class="container my-5">
-    <div class="row">
-      <div class="col-md-6">
+  <!-- Detalle de la Camiseta -->
+  <!-- Detalle de la Camiseta -->
+<div class="container my-5">
+  <div class="row g-4">
+    <!-- Columna de la imagen (usando el contenedor que ya definimos) -->
+    <div class="col-md-6">
+      <div class="img-container">
         <?php if(!empty($camiseta['imagen'])): ?>
-          <img src="uploads/camisetas/<?php echo htmlspecialchars($camiseta['imagen']); ?>" class="detalle-img img-fluid" alt="Imagen de <?php echo htmlspecialchars($camiseta['equipo']); ?>">
+          <img src="uploads/camisetas/<?php echo htmlspecialchars($camiseta['imagen']); ?>" class="img-fluid" alt="Imagen de <?php echo htmlspecialchars($camiseta['equipo']); ?>">
         <?php else: ?>
-          <img src="assets/img/camiseta-placeholder.jpg" class="detalle-img img-fluid" alt="Imagen no disponible">
+          <img src="assets/img/camiseta-placeholder.jpg" class="img-fluid" alt="Imagen no disponible">
         <?php endif; ?>
       </div>
-      <div class="col-md-6">
-        <h2><?php echo htmlspecialchars($camiseta['equipo']); ?></h2>
-        <p class="text-muted"><?php echo htmlspecialchars($camiseta['liga']); ?></p>
-        <p class="fw-bold">$<?php echo number_format($camiseta['precio'], 2); ?></p>
-        <p><?php echo htmlspecialchars($camiseta['descripcion'] ?? 'Sin descripción'); ?></p>
-        <a href="catalogo.php" class="btn btn-primary">Volver al Catálogo</a>
+    </div>
+    
+    <!-- Columna de detalles (nombre, precio, descripción, botón de comprar) -->
+    <div class="col-md-6">
+      <h2 class="mb-3"><?php echo htmlspecialchars($camiseta['equipo']); ?></h2>
+      <p class="text-muted h5"><?php echo htmlspecialchars($camiseta['liga']); ?></p>
+      <p class="fw-bold fs-4 text-success">$<?php echo number_format($camiseta['precio'], 2); ?></p>
+      <hr>
+      <p class="lead"><?php echo nl2br(htmlspecialchars($camiseta['descripcion'] ?? 'Sin descripción.')); ?></p>
+      <div class="mt-4">
+      <a href="comprar.php?id=<?php echo $id; ?>" class="btn-compra">
+        <i class="bi bi-cart-check-fill me-2"></i> Comprar
+      </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  <!-- Sección de Comentarios -->
+  <div class="container my-5">
+    <h3 class="mb-4">Comentarios</h3>
+    
+    <!-- Formulario para agregar un comentario (funcionalidad a programar posteriormente) -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Añade tu comentario</h5>
+        <form action="#" method="post" id="comentarioForm">
+          <div class="mb-3">
+            <textarea class="form-control" name="comentario" id="comentario" rows="3" placeholder="Escribe aquí tu comentario..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">Publicar comentario</button>
+        </form>
+        <small class="text-muted">Funcionalidad en construcción</small>
+      </div>
+    </div>
+    
+    <!-- Listado de comentarios -->
+    <div id="listaComentarios">
+      <!-- Aquí se cargarán los comentarios cuando programes la funcionalidad; por ahora mostramos un mensaje -->
+      <div class="alert alert-info" role="alert">
+        No hay comentarios por el momento. ¡Sé el primero en comentar!
       </div>
     </div>
   </div>
   
-  <!-- Puedes incluir tu footer reutilizando un archivo shared si lo tienes -->
-  <?php include 'includes/footer.php'; ?>
+  <!-- Footer (Incluye tu footer reutilizable) -->
+  <?php include("includes/footer.php"); ?>
   
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Puedes agregar un script para manejar el envío del comentario en el futuro -->
+  <script>
+    // Ejemplo: Previene el envío del formulario y muestra un mensaje (para recodificar la funcionalidad)
+    document.getElementById('comentarioForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('La funcionalidad de comentarios se implementará próximamente.');
+    });
+  </script>
 </body>
 </html>
