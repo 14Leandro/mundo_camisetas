@@ -2,45 +2,42 @@
 session_start();
 include 'conexion.php';
 
-// Recoger datos del formulario
-$email = trim($_POST['email']);
-$password = $_POST['password'];
+// Recoger y limpiar los datos del formulario
+$email    = trim($_POST['email']);
+$password = trim($_POST['password']);
 
+// Verificar que los campos no estén vacíos
 if (empty($email) || empty($password)) {
-    $_SESSION['mensaje_error'] = "Todos los campos son obligatorios.";
+    $_SESSION['mensaje_error_login'] = "Por favor, completa todos los campos.";
     header("Location: ../index.php#modalLogin");
     exit();
 }
 
-// Consultar credenciales
-$stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ?");
+// Preparar la consulta para buscar el usuario con ese email
+$stmt = $conn->prepare("SELECT id, nombre, password FROM usuarios WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 1) {
     $usuario = $result->fetch_assoc();
-
+    // Verificar la contraseña utilizando password_verify
     if (password_verify($password, $usuario['password'])) {
-        // Iniciar sesión
+        // Credenciales correctas. Iniciar sesión.
         $_SESSION['usuario_id'] = $usuario['id'];
-        $_SESSION['nombre'] = $usuario['nombre'];
-        $_SESSION['rol'] = $usuario['rol'];
-
-        // Redirigir según rol
-        if ($usuario['rol'] === 'admin') {
-            header("Location: ../admin/panel_admin.php");
-        } else {
-            header("Location: ../index.php");
-        }
+        $_SESSION['nombre']     = $usuario['nombre'];
+        // Redirigir sin hash para que el modal no se abra.
+        header("Location: ../index.php");
         exit();
     } else {
-        $_SESSION['mensaje_error'] = "Contraseña incorrecta.";
+        // Contraseña incorrecta
+        $_SESSION['mensaje_error_login'] = "Correo o contraseña incorrectos.";
         header("Location: ../index.php#modalLogin");
         exit();
     }
 } else {
-    $_SESSION['mensaje_error'] = "No existe una cuenta asociada a este correo.";
+    // No se encontró el usuario
+    $_SESSION['mensaje_error_login'] = "Correo o contraseña incorrectos.";
     header("Location: ../index.php#modalLogin");
     exit();
 }

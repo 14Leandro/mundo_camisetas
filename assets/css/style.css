@@ -1,214 +1,117 @@
-/* ========== Global Styles ========== */
+/* Reset y configuración básica */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* Layout general: use flex for body para que el main se expanda y el footer quede al final */
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.site-header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.navbar-brand {
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+/* Hero Section */
+.hero {
+  background: url('assets/img/hero.jpg') center center/cover no-repeat;
+  color: #ffffff;
+  padding: 120px 0;
+  text-align: center;
+  position: relative;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(13, 110, 253, 0.6);
+}
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+/* Catálogo Destacado */
+.catalogo h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+.catalogo .card {
+  border: none;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+.catalogo .card:hover {
+  transform: translateY(-5px);
+}
+.catalogo .card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Footer */
+.site-footer {
+  background-color: #212529;
+  color: #ffffff;
+  padding: 30px 0;
+  width: 100%;
+}
+.site-footer h5 {
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+.site-footer p {
+  font-size: 0.875rem;
+}
+.site-footer a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.site-footer a:hover {
+  color: #0d6efd;
+}
+
+/* Main expande para que el footer se quede abajo */
+main {
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .site-footer {
+    text-align: center;
   }
-  
-  /* ========== Header ========== */
-  .site-header {
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .navbar-brand {
-    font-weight: bold;
-    color: #003a80;
-  }
-  
-  .navbar-brand:hover {
-    color: #001f4d;
-  }
-  
-  .nav-link {
-    color: #003a80;
-    transition: color 0.3s ease;
-  }
-  
-  .nav-link:hover {
-    color: #001f4d;
-  }
-  
-  /* ========== Hero Section ========== */
-  .hero {
-    padding: 60px 0;
-  }
-  
-  .hero__title {
-    font-size: 2.5rem;
-    color: #003a80;
+  .site-footer .row > div {
     margin-bottom: 20px;
   }
-  
-  .hero__subtitle {
-    font-size: 1.25rem;
-    margin-bottom: 30px;
-    color: #555;
+  .hero {
+    text-align: center;
   }
-  
-  .hero__cta {
-    background-color: #003a80;
-    border: none;
-    color: #fff;
-    padding: 12px 25px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
+  .catalogo .card {
+    margin-bottom: 15px;
   }
-  
-  .hero__cta:hover {
-    background-color: #001f4d;
-  }
-  
-  .hero__img {
-    max-width: 100%;
-    border-radius: 10px;
-  }
-  
-  /* ========== Footer ========== */
-  .site-footer {
-    background-color: #003a80;
-    color: #fff;
-    padding: 20px 0;
-  }
-
-
-  /* Estilos personalizados para el botón de Login/Registro en el header */
-.navbar-nav .nav-item.dropdown > a.dropdown-toggle {
-    background-color: #003a80; /* Color de fondo principal */
-    color: #fff !important;    /* Texto en blanco */
-    padding: 8px 16px;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  /* Efecto hover para el botón */
-  .navbar-nav .nav-item.dropdown > a.dropdown-toggle:hover {
-    background-color: #001f4d;
-    text-decoration: none;
-    transform: scale(1.03);
-  }
-  
-  /* Estilos para el menú desplegable */
-  .navbar-nav .dropdown-menu {
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Estilos para el ítem del dropdown */
-  .navbar-nav .dropdown-menu .dropdown-item {
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Efecto hover para los ítems del dropdown */
-  .navbar-nav .dropdown-menu .dropdown-item:hover {
-    background-color: #f2f2f2;
-    color: #003a80;
-  }
-  
-  
-
-
-/* Estilos formulario registro de usuarios */
-/* Fondo claro y sombra suave para el modal */
-.modal-content {
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Botones con bordes suaves */
-.modal .btn {
-  border-radius: 5px;
-}
-
-/* Ícono decorativo centrado */
-.modal-body .bi-person-plus-fill {
-  color: #28a745; /* Verde claro */
-}
-
-/* Estilo de los campos de entrada */
-.form-control-lg {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-}
-
-.form-control-lg:focus {
-  border-color: #28a745;
-  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
-}
-
-/* Color del header del modal */
-.modal-header {
-  border-bottom: none;
-}
-
-/* Animación suave para el modal */
-.modal.fade .modal-dialog {
-  transform: translateY(-100px);
-  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-}
-
-.modal.show .modal-dialog {
-  transform: translateY(0);
-}
-
-/* Fondo claro del body del modal */
-.modal-body {
-  background-color: #f8f9fa;
-}
-
-
-
-/* Estilos formulario de login*/
-/* Fondo claro con sombra para el modal */
-.modal-content {
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Botones con bordes suaves */
-.modal .btn {
-  border-radius: 5px;
-}
-
-/* Ícono decorativo centrado */
-.modal-body .bi-person-circle {
-  color: #003a80; /* Azul oscuro */
-}
-
-/* Estilo de los campos de entrada */
-.form-control-lg {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-}
-
-.form-control-lg:focus {
-  border-color: #003a80;
-  box-shadow: 0 0 5px rgba(0, 58, 128, 0.5);
-}
-
-/* Color del header del modal */
-.modal-header {
-  border-bottom: none;
-}
-
-/* Animación suave al mostrar el modal */
-.modal.fade .modal-dialog {
-  transform: translateY(-100px);
-  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-}
-
-.modal.show .modal-dialog {
-  transform: translateY(0);
-}
-
-/* Fondo claro del body del modal */
-.modal-body {
-  background-color: #f8f9fa;
 }
