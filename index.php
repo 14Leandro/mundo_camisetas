@@ -56,7 +56,7 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
       <div class="container">
         <h1>Descubre las Camisetas de tus Sueños</h1>
         <p>Tenemos la mejor selección de camisetas de fútbol para los verdaderos aficionados.</p>
-        <a href="#" class="btn btn-light btn-lg">Ver Catálogo</a>
+        <a href="catalogo.php" class="btn btn-light btn-lg">Ver Catálogo</a>
       </div>
     </section>
     
