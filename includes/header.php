@@ -42,25 +42,25 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </li>
           </ul>
           <!-- Menú de usuario -->
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <?php if (isset($_SESSION['nombre']) && !empty($_SESSION['nombre'])): ?>
-              <li class="nav-item">
-                <span class="navbar-text me-3">Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?></span>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="php/logout.php">Cerrar Sesión</a>
-              </li>
-            <?php else: ?>
-              <li class="nav-item">
-                <!-- Dispara el modal de login -->
-                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">Iniciar Sesión</a>
-              </li>
-              <li class="nav-item">
-                <!-- Dispara el modal de registro -->
-                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalRegistro">Registrarse</a>
-              </li>
-            <?php endif; ?>
-          </ul>
+<ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center">
+  <?php if (isset($_SESSION['nombre']) && !empty($_SESSION['nombre'])): ?>
+    <li class="nav-item">
+      <span class="navbar-text me-3">Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?></span>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="php/logout.php">Cerrar Sesión</a>
+    </li>
+  <?php else: ?>
+    <li class="nav-item">
+      <!-- Dispara el modal de login -->
+      <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">Iniciar Sesión</a>
+    </li>
+    <li class="nav-item">
+      <!-- Dispara el modal de registro -->
+      <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalRegistro">Registrarse</a>
+    </li>
+  <?php endif; ?>
+</ul>
         </div>
       </div>
     </nav>

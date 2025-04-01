@@ -1,11 +1,28 @@
-<footer class="site-footer py-3 bg-dark text-white">
-    <div class="container text-center">
-      <p class="mb-0">&copy; <?php echo date("Y"); ?> Mundo Camisetas. Todos los derechos reservados.</p>
+<!-- Footer -->
+<footer class="site-footer mt-auto">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <div class="col-md-4 mb-4 mb-md-0">
+          <h5>Mundo Camisetas</h5>
+          <p class="small">Las mejores camisetas para los aficionados del fútbol, al alcance de tus manos.</p>
+        </div>
+        <div class="col-md-4 mb-4 mb-md-0">
+          <h5>Enlaces</h5>
+          <ul class="list-unstyled">
+            <li><a href="index.php">Inicio</a></li>
+            <li><a href="#">Catálogo</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>Redes Sociales</h5>
+          <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+      <div class="mt-3">
+        <p class="small mb-0">&copy; 2025 Mundo Camisetas. Todos los derechos reservados.</p>
+      </div>
     </div>
   </footer>
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Archivo JS personalizado -->
-  <script src="assets/js/script.js"></script>
-</body>
-</html>

@@ -24,6 +24,11 @@ body {
   font-size: 1.5rem;
 }
 
+.navbar-nav.ms-auto > li {
+  display: flex;
+  align-items: center;
+}
+
 /* Mensaje de exito de registro */
 /* Contenedor para centrar el mensaje */
 /* Flash message overlay */
