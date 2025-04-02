@@ -20,8 +20,8 @@ include 'includes/header.php';
   <?php endif; ?>
   <form action="php/insertar_camiseta.php" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
-      <label for="equipo" class="form-label">Equipo</label>
-      <input type="text" name="equipo" id="equipo" class="form-control" required>
+      <label for="nombre" class="form-label">Nombre del producto</label>
+      <input type="text" name="nombre" id="nombre" class="form-control" required>
     </div>
     <div class="mb-3">
       <label for="liga" class="form-label">Liga</label>

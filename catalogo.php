@@ -14,14 +14,14 @@ if (!in_array($filtro, $allowedFilters)) {
 }
 
 // Construir la consulta principal
-$query = "SELECT id, equipo, liga, precio, imagen FROM camisetas";
+$query = "SELECT id, nombre, liga, precio, imagen FROM camisetas";
 $params = [];
 $types  = "";
 $conditions = [];
 
-// Condición para búsqueda (equipo o liga)
+// Condición para búsqueda (nombre o liga)
 if (!empty($busqueda)) {
-    $conditions[] = "(equipo LIKE ? OR liga LIKE ?)";
+    $conditions[] = "(nombre LIKE ? OR liga LIKE ?)";
     $searchParam = "%" . $busqueda . "%";
     $params[] = $searchParam;
     $params[] = $searchParam;
@@ -125,7 +125,7 @@ $result = $stmt->get_result();
         <?php
         if ($result && $result->num_rows > 0) {
           while ($row = $result->fetch_assoc()) {
-            $equipo   = htmlspecialchars($row['equipo'] ?? 'Sin información');
+            $nombre   = htmlspecialchars($row['nombre'] ?? 'Sin información');
             $ligaName = htmlspecialchars($row['liga'] ?? '');
             $precio   = number_format($row['precio'] ?? 0, 2);
             $imagen   = htmlspecialchars($row['imagen'] ?? '');
@@ -133,12 +133,12 @@ $result = $stmt->get_result();
         <div class="col-md-3 mb-4">
           <div class="card h-100 shadow-sm">
             <?php if (!empty($imagen)) { ?>
-              <img src="uploads/camisetas/<?php echo $imagen; ?>" class="card-img-top" alt="Imagen de <?php echo $equipo; ?>">
+              <img src="uploads/camisetas/<?php echo $imagen; ?>" class="card-img-top" alt="Imagen de <?php echo $nombre; ?>">
             <?php } else { ?>
               <img src="assets/img/camiseta-placeholder.jpg" class="card-img-top" alt="Imagen no disponible">
             <?php } ?>
             <div class="card-body">
-              <h5 class="card-title"><?php echo $equipo; ?></h5>
+              <h5 class="card-title"><?php echo $nombre; ?></h5>
               <p class="card-text text-muted"><?php echo $ligaName; ?></p>
               <p class="card-text fw-bold">$<?php echo $precio; ?></p>
               <a href="ver_camiseta.php?id=<?php echo $row['id']; ?>" class="btn btn-outline-primary btn-sm">Ver más</a>

@@ -12,16 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_stock'])) {
   $product_id = intval($_POST['product_id']);
   $new_stock  = intval($_POST['stock']);
 
-  // Obtener el nombre del equipo para mostrar en el mensaje
-  $stmtEquipo = $conn->prepare("SELECT equipo FROM camisetas WHERE id = ?");
-  if ($stmtEquipo === false) {
+  // Obtener el nombre del nombre para mostrar en el mensaje
+  $stmtNombre = $conn->prepare("SELECT nombre FROM camisetas WHERE id = ?");
+  if ($stmtNombre === false) {
       die("Error en la consulta: " . $conn->error);
   }
-  $stmtEquipo->bind_param("i", $product_id);
-  $stmtEquipo->execute();
-  $stmtEquipo->bind_result($equipo);
-  $stmtEquipo->fetch();
-  $stmtEquipo->close();
+  $stmtNombre->bind_param("i", $product_id);
+  $stmtNombre->execute();
+  $stmtNombre->bind_result($nombre);
+  $stmtNombre->fetch();
+  $stmtNombre->close();
 
   // Actualizar el stock del producto
   $stmt = $conn->prepare("UPDATE camisetas SET stock = ? WHERE id = ?");
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_stock'])) {
   }
   $stmt->bind_param("ii", $new_stock, $product_id);
   if ($stmt->execute()) {
-      $_SESSION['message'] = "Stock actualizado para la camiseta: " . htmlspecialchars($equipo);
+      $_SESSION['message'] = "Stock actualizado para la camiseta: " . htmlspecialchars($nombre);
   } else {
       $_SESSION['message'] = "Error actualizando stock: " . $stmt->error;
   }
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_stock'])) {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Equipo</th>
+            <th>Nombre del producto</th>
             <th>Liga</th>
             <th>Precio</th>
             <th>Stock</th>
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_stock'])) {
               while ($row = $result->fetch_assoc()) {
                   echo '<tr>';
                   echo '<td>' . ($row["id"] ?? '') . '</td>';
-                  echo '<td>' . htmlspecialchars($row["equipo"] ?? '') . '</td>';
+                  echo '<td>' . htmlspecialchars($row["nombre"] ?? '') . '</td>';
                   echo '<td>' . htmlspecialchars($row["liga"] ?? '') . '</td>';
                   echo '<td>$' . number_format($row["precio"] ?? 0, 2) . '</td>';
 

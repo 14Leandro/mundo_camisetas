@@ -119,7 +119,7 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
           <?php
           include 'php/conexion.php';
           // Incluir el campo "id" en la consulta para identificar cada camiseta.
-          $query = "SELECT id, equipo, liga, precio, imagen FROM camisetas LIMIT 4";
+          $query = "SELECT id, nombre, liga, precio, imagen FROM camisetas LIMIT 4";
           $result = $conn->query($query);
           if ($result->num_rows > 0) {
               while ($row = $result->fetch_assoc()) {
@@ -127,12 +127,12 @@ $nombreUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : "";
                 echo '  <div class="card shadow-sm h-100">';
                 // Mostrar la imagen o una placeholder si no existe.
                 if (!empty($row['imagen'])) {
-                  echo '    <img src="uploads/camisetas/' . htmlspecialchars($row['imagen']) . '" class="card-img-top" alt="Imagen de ' . htmlspecialchars($row['equipo']) . '">';
+                  echo '    <img src="uploads/camisetas/' . htmlspecialchars($row['imagen']) . '" class="card-img-top" alt="Imagen de ' . htmlspecialchars($row['nombre']) . '">';
                 } else {
                   echo '    <img src="assets/img/camiseta-placeholder.jpg" class="card-img-top" alt="Imagen no disponible">';
                 }
                 echo '    <div class="card-body">';
-                echo '      <h5 class="card-title">' . htmlspecialchars($row['equipo']) . '</h5>';
+                echo '      <h5 class="card-title">' . htmlspecialchars($row['nombre']) . '</h5>';
                 echo '      <p class="card-text text-muted">' . htmlspecialchars($row['liga']) . '</p>';
                 echo '      <p class="card-text fw-bold">$' . number_format($row['precio'], 2) . '</p>';
                 // Incorporamos el id en el enlace para dirigir al detalle de la camiseta.

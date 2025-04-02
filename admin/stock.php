@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Obtener la lista de productos con su stock
-$result = $conn->query("SELECT id, equipo, stock FROM camisetas");
+$result = $conn->query("SELECT id, nombre, stock FROM camisetas");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -58,7 +58,7 @@ $result = $conn->query("SELECT id, equipo, stock FROM camisetas");
       <thead>
         <tr>
           <th>ID</th>
-          <th>Equipo</th>
+          <th>Nombre</th>
           <th>Stock</th>
           <th>Acciones</th>
         </tr>
@@ -68,7 +68,7 @@ $result = $conn->query("SELECT id, equipo, stock FROM camisetas");
           <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
               <td><?php echo $row['id']; ?></td>
-              <td><?php echo htmlspecialchars($row['equipo']); ?></td>
+              <td><?php echo htmlspecialchars($row['nombre']); ?></td>
               <td>
                 <!-- Formulario para actualizar el stock para este producto -->
                 <form method="POST" action="stock.php" class="d-flex align-items-center">

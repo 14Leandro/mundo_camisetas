@@ -8,13 +8,13 @@ include '../../php/conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = intval($_POST['id']);
-    $equipo = trim($_POST['equipo']);
+    $nombre = trim($_POST['nombre']);
     $liga = trim($_POST['liga']);
     $precio = trim($_POST['precio']);
     $descripcion = trim($_POST['descripcion']);
 
-    if (empty($equipo) || empty($liga) || empty($precio)) {
-        $_SESSION['mensaje_error'] = "Los campos de equipo, liga y precio son obligatorios.";
+    if (empty($nombre) || empty($liga) || empty($precio)) {
+        $_SESSION['mensaje_error'] = "Los campos de nombre del producto, liga y precio son obligatorios.";
         header("Location: ../editar_camiseta.php?id=" . $id);
         exit();
     }
@@ -46,23 +46,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if ($updateImage) {
-        $query = "UPDATE camisetas SET equipo = ?, liga = ?, precio = ?, imagen = ?, descripcion = ? WHERE id = ?";
+        $query = "UPDATE camisetas SET nombre = ?, liga = ?, precio = ?, imagen = ?, descripcion = ? WHERE id = ?";
         $stmt = $conn->prepare($query);
         if (!$stmt) {
             $_SESSION['mensaje_error'] = "Error en preparación de consulta: " . $conn->error;
             header("Location: ../editar_camiseta.php?id=" . $id);
             exit();
         }
-        $stmt->bind_param("ssdssi", $equipo, $liga, $precio, $imagenPath, $descripcion, $id);
+        $stmt->bind_param("ssdssi", $nombre, $liga, $precio, $imagenPath, $descripcion, $id);
     } else {
-        $query = "UPDATE camisetas SET equipo = ?, liga = ?, precio = ?, descripcion = ? WHERE id = ?";
+        $query = "UPDATE camisetas SET nombre = ?, liga = ?, precio = ?, descripcion = ? WHERE id = ?";
         $stmt = $conn->prepare($query);
         if (!$stmt) {
             $_SESSION['mensaje_error'] = "Error en preparación de consulta: " . $conn->error;
             header("Location: ../editar_camiseta.php?id=" . $id);
             exit();
         }
-        $stmt->bind_param("ssdsi", $equipo, $liga, $precio, $descripcion, $id);
+        $stmt->bind_param("ssdsi", $nombre, $liga, $precio, $descripcion, $id);
     }
     
     if ($stmt->execute()) {

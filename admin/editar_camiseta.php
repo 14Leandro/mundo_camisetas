@@ -41,8 +41,8 @@ $stmt->close();
   <form action="php/actualizar_camiseta.php" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?php echo $camiseta['id']; ?>">
     <div class="mb-3">
-      <label for="equipo" class="form-label">Equipo</label>
-      <input type="text" name="equipo" id="equipo" class="form-control" value="<?php echo htmlspecialchars($camiseta['equipo']); ?>" required>
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" name="nombre" id="nombre" class="form-control" value="<?php echo htmlspecialchars($camiseta['nombre']); ?>" required>
     </div>
     <div class="mb-3">
       <label for="liga" class="form-label">Liga</label>

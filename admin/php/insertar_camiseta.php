@@ -7,13 +7,13 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
 include '../../php/conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $equipo = trim($_POST['equipo']);
+    $nombre = trim($_POST['nombre']);
     $liga = trim($_POST['liga']);
     $precio = trim($_POST['precio']);
     $descripcion = trim($_POST['descripcion']);
 
-    if (empty($equipo) || empty($liga) || empty($precio)) {
-        $_SESSION['mensaje_error'] = "Los campos de equipo, liga y precio son obligatorios.";
+    if (empty($nombre) || empty($liga) || empty($precio)) {
+        $_SESSION['mensaje_error'] = "Los campos de nombre del producto, liga y precio son obligatorios.";
         header("Location: ../agregar_camiseta.php");
         exit();
     }
@@ -42,14 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $query = "INSERT INTO camisetas (equipo, liga, precio, imagen, descripcion) VALUES (?, ?, ?, ?, ?)";
+    $query = "INSERT INTO camisetas (nombre, liga, precio, imagen, descripcion) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         $_SESSION['mensaje_error'] = "Error en preparación de consulta: " . $conn->error;
         header("Location: ../agregar_camiseta.php");
         exit();
     }
-    $stmt->bind_param("ssdss", $equipo, $liga, $precio, $imagenPath, $descripcion);
+    $stmt->bind_param("ssdss", $nombre, $liga, $precio, $imagenPath, $descripcion);
     
     if ($stmt->execute()) {
         $_SESSION['mensaje_exito'] = "Camiseta agregada exitosamente.";

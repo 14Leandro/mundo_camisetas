@@ -11,7 +11,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $id = intval($_GET['id']);
 
 // Consulta para obtener todos los datos de la camiseta, incluyendo el stock
-$stmt = $conn->prepare("SELECT equipo, liga, precio, imagen, descripcion, stock FROM camisetas WHERE id = ?");
+$stmt = $conn->prepare("SELECT nombre, liga, precio, imagen, descripcion, stock FROM camisetas WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -30,7 +30,7 @@ $conn->close();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Detalle de <?php echo htmlspecialchars($camiseta['equipo']); ?></title>
+  <title><?php echo htmlspecialchars($camiseta['nombre']); ?> - Mundo Camisetas</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Archivo CSS personalizado -->
@@ -47,7 +47,7 @@ $conn->close();
       <div class="col-md-6">
         <div class="img-container">
           <?php if (!empty($camiseta['imagen'])): ?>
-            <img src="uploads/camisetas/<?php echo htmlspecialchars($camiseta['imagen']); ?>" class="img-fluid" alt="Imagen de <?php echo htmlspecialchars($camiseta['equipo']); ?>">
+            <img src="uploads/camisetas/<?php echo htmlspecialchars($camiseta['imagen']); ?>" class="img-fluid" alt="Imagen de <?php echo htmlspecialchars($camiseta['nombre']); ?>">
           <?php else: ?>
             <img src="assets/img/camiseta-placeholder.jpg" class="img-fluid" alt="Imagen no disponible">
           <?php endif; ?>
@@ -56,7 +56,7 @@ $conn->close();
       
       <!-- Columna de detalles -->
       <div class="col-md-6">
-        <h2 class="mb-3"><?php echo htmlspecialchars($camiseta['equipo']); ?></h2>
+        <h2 class="mb-3"><?php echo htmlspecialchars($camiseta['nombre']); ?></h2>
         <p class="text-muted h5"><?php echo htmlspecialchars($camiseta['liga']); ?></p>
         <p class="fw-bold fs-4 text-success">$<?php echo number_format($camiseta['precio'], 2); ?></p>
         <!-- Mostrar el stock -->
