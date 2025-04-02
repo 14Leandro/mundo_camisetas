@@ -1,10 +1,15 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "camisetas_futbol");
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
+$servername = "localhost";
+$username   = "root";           // o el usuario que uses
+$password   = "";  // la contraseña correspondiente
+$dbname     = "camisetas_futbol";  // asegúrate que coincide con el dump
 
-// Establecer el juego de caracteres a UTF-8
-$conn->set_charset("utf8mb4");
+// Crear la conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("Fallo en la conexión: " . $conn->connect_error);
+}
 ?>
 
