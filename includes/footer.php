@@ -10,8 +10,8 @@
           <h5>Enlaces</h5>
           <ul class="list-unstyled">
             <li><a href="index.php">Inicio</a></li>
-            <li><a href="#">Catálogo</a></li>
-            <li><a href="#">Contacto</a></li>
+            <li><a href="catalogo.php">Catálogo</a></li>
+            <li><a href="contacto.php">Contacto</a></li>
           </ul>
         </div>
         <div class="col-md-4">

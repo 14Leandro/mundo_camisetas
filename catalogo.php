@@ -148,7 +148,7 @@ $result = $stmt->get_result();
         <?php
           }
         } else {
-          echo '<p class="text-center">No se encontraron camisetas.</p>';
+          echo '<p class="text-center">No se encontraron productos.</p>';
         }
         $stmt->close();
         $conn->close();
